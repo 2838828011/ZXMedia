@@ -1,4 +1,6 @@
 import re
+from core.model.sqlite_queue import SqliteQueue
+from core.function.new_id import get_id1
 class TVGroup:
     def __init__(self, tv_name: None or str = None):
         self.tv_name = tv_name
@@ -40,6 +42,33 @@ class TVGroup:
             'tv_name':self.tv_name,
             'episodes':self.__episodes
         }
+
+
+    def add_to_database(self,db:'SqliteQueue'):
+        name = self.tv_name
+        if isinstance(db,SqliteQueue):
+            for i in self.__episodes:
+                season_number=i.get('season')
+                episodes=i.get('episodes')
+                for _ in episodes:
+                    db.insert('EpisodeMediaTemp',
+                                season=season_number,
+                                episode=_,
+                                path=episodes[_],
+                                id=get_id1(),
+                                tv_name=name
+                              )
+            db.cur_execute('INSERT INTO EpisodeMedia '
+                           'SELECT * from EpisodeMediaTemp '
+                           'where path not in (SELECT path FROM EpisodeMedia)'
+                           )
+            db.cur_execute('DELETE from EpisodeMedia '
+                           'where path not in (SELECT path FROM EpisodeMediaTemp)'
+                           )
+
+
+
+
 
 if __name__ == '__main__':
     a=TVGroup()
