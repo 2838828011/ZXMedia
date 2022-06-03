@@ -12,7 +12,8 @@ def search_from_tv(path:str) -> 'TVGroup':
     episode_re = [
         'S\d{0,3}E(\d{0,3})',
         '\[[Ee][Pp]{0,1}(\d{1,3})\]',
-        '第(\d{1,3})集'
+        '第(\d{1,3})集',
+        '\[(\d{1,3})\]'
     ]
     temp = TVGroup(split_file_name(path)[-1])
     seasons = get_dirs(path)
@@ -42,6 +43,7 @@ def search():
         if i[0] == 'tv':
             for each_path in get_dirs(i[1]):  # 获取剧集媒体库下方所有的文件夹
                 tv_group=search_from_tv(each_path)
+                print(tv_group.data)
                 tv_group.add_to_database(sqlite_data)
 
 

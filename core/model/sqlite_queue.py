@@ -74,4 +74,5 @@ class SqliteQueue(Queue):  # 君子式队列
 
 sqlite_data = SqliteQueue(database_path)
 sqlite_data.execute_from_file(init_table_path)
-sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(type, path) VALUES (?,?)',('tv','/Volumes/文件1/视频/剧集/动漫'))
+#sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(type, path) VALUES (?,?)',('tv','/Volumes/文件1/视频/剧集/动漫'))
+sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(type, path) VALUES (?,?)',('tv','/Users/zhangbeiyuan/Downloads'))
