@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}
+    TV
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="dropdown p-1">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-expanded="false">
+                显示方式
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{{ url_for('media.tv_index') }}">最新TV剧集(按库分类)</a>
+                <a class="dropdown-item" href="{{ url_for('media.tv_index',type='all') }}">所有TV(无库分类)</a>
+            </div>
+        </div>
+        {% for i in show_tv %}
+            <h1>{{ i }} 最新剧集</h1>
+            <div class="row">
+                {% for episode in show_tv[i] %}
+                    <div class="col-md-3">
+                        <div class="card mb-4 shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="150"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cover Picture"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c"></rect>
+                                <image href="{{ url_for('api_resource.get_pic',picture_id=episode.get('cover_picture_id')) }}" height="100%" width="100%"></image>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">{{ episode.get('name') }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{{ url_for('media.tv_index',type='episode',id=episode.get('id')) }}">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
+                                        </a>
+                                    </div>
+                                    <!--<small class="text-muted">9 mines</small>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

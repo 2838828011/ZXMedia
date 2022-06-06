@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ show_tv[0].get('tv_name') }}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="text-center">
+            <img width="50%" height="50%" class="rounded" src="{{ url_for('api_resource.get_pic',picture_id=show_tv[0].get('tv_cover_picture')) }}">
+        </div>
+        <div class="text-center p-1">
+            <h1>{{ show_tv[0].get('tv_name') }}</h1>
+        </div>
+        <div class="p-1">
+            {% for episode in show_tv %}
+                <div class="card">
+                    <div class="card-header">
+                        {{ episode.get('tv_name') }} 第{{ episode.get('season') }}季 第{{ episode.get('episode') }}集
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ episode.get('name') }}</h5>
+                        <p class="card-text">简介</p>
+                        <a href="{{ url_for('media.tv_index',type='episode',id=episode.get('episode_id')) }}" class="btn btn-primary">查看</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

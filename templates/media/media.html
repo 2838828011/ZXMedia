@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+    媒体库
+{% endblock %}
+{% block body %}
+    <div class="container">
+        {% for type,url in show_tv %}
+            <div class="text-center">
+                <h1>{{ type }} 最新库</h1>
+            </div>
+            <div class="p-3">
+                <a href="{{ url }}">
+                    <button type="button" class="btn btn-secondary btn-lg btn-block">查看全部 {{type}} 库</button>
+                </a>
+            </div>
+            <div class="row">
+                {% for media_name in show_tv[(type,url)] %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cover Picture"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c"></rect>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">{{ media_name }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    </div>
+                                    <!--<small class="text-muted">9 mines</small>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

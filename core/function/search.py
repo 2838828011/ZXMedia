@@ -4,7 +4,8 @@ from core.function.file import get_dirs, get_files
 from os.path import split as split_file_name
 from core.function.regular_xpression import find as re_find
 
-def search_from_tv(path:str) -> 'TVGroup':
+
+def search_from_tv(search_path_name, path: str) -> 'TVGroup':
     season_re = [
         '[Ss](\d)',
         'Season(\d)'
@@ -15,7 +16,7 @@ def search_from_tv(path:str) -> 'TVGroup':
         '第(\d{1,3})集',
         '\[(\d{1,3})\]'
     ]
-    temp = TVGroup(split_file_name(path)[-1])
+    temp = TVGroup(search_path_name, split_file_name(path)[-1])
     seasons = get_dirs(path)
     for each_season in seasons:
         season_number = re_find(season_re, split_file_name(each_season)[-1])
@@ -40,10 +41,10 @@ def search_from_picture(path):
 def search():
     video = sqlite_data.select('SearchPath')
     for i in video:
-        if i[0] == 'tv':
-            for each_path in get_dirs(i[1]):  # 获取剧集媒体库下方所有的文件夹
-                tv_group=search_from_tv(each_path)
-                print(tv_group.data)
+        if i[1] == 'tv':
+            for each_path in get_dirs(i[2]):  # 获取剧集媒体库下方所有的文件夹
+                tv_group = search_from_tv(i[0], each_path)
+                # print(tv_group.data)
                 tv_group.add_to_database(sqlite_data)
 
 

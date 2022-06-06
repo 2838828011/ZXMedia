@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ show_tv[1] }}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="text-center">
+            <img class="rounded"
+                 src="{{ url_for('api_resource.get_pic',picture_id=show_tv[7])}}">
+        </div>
+        <div class="text-center p-1">
+            <h1>{{ show_tv[1] }}</h1>
+            <h2>第{{ show_tv[5] }}季 第 {{ show_tv[6] }}集</h2>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('media.tv_index',type='episode',name=show_tv[1]) }}">
+                <button type="button" class="btn btn-outline-secondary">查看TV</button>
+            </a>
+
+        </div>
+    </div>
+{% endblock %}

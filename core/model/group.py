@@ -2,8 +2,9 @@ import re
 from core.model.sqlite_queue import SqliteQueue
 from core.function.new_id import get_id1
 class TVGroup:
-    def __init__(self, tv_name: None or str = None):
+    def __init__(self,search_path_name, tv_name: None or str = None):
         self.tv_name = tv_name
+        self.__search_path_name=search_path_name
         self.__episodes = []
 
     def add_season(self,season_number:int):
@@ -52,6 +53,7 @@ class TVGroup:
                 episodes=i.get('episodes')
                 for _ in episodes:
                     db.insert('EpisodeMediaTemp',
+                                father_search_path=self.__search_path_name,
                                 season=season_number,
                                 episode=_,
                                 path=episodes[_],
