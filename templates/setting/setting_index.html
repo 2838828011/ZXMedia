@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% block title %}
-    主页
+    设置
 {% endblock %}
 {% block body %}
-    
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">媒体库管理</h5>
+                <p class="card-text">添加或删减媒体库</p>
+                <a href="{{ url_for('setting.manage_search_path') }}"
+                   class="btn btn-primary">管理</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

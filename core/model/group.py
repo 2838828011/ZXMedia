@@ -60,13 +60,6 @@ class TVGroup:
                                 id=get_id1(),
                                 tv_name=name
                               )
-            db.cur_execute('INSERT INTO EpisodeMedia '
-                           'SELECT * from EpisodeMediaTemp '
-                           'where path not in (SELECT path FROM EpisodeMedia)'
-                           )
-            db.cur_execute('DELETE from EpisodeMedia '
-                           'where path not in (SELECT path FROM EpisodeMediaTemp)'
-                           )
 
 
 

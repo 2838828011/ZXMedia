@@ -59,8 +59,15 @@ class SqliteQueue(Queue):  # 君子式队列
         db.commit()
         self.close_db(db)
 
-    def cur_execute(self, command, values=None):
+    def cur_execute(self, command, values=None ,use_dic=False):
+        def dict_factory(cursor, row):
+            d = {}
+            for idx, col in enumerate(cursor.description):
+                d[col[0]] = row[idx]
+            return d
         db = self.get_db()
+        if use_dic is True:
+            db.row_factory = dict_factory
         cur = db.cursor()
         if values is None:
             cur.execute(command)
@@ -75,4 +82,4 @@ class SqliteQueue(Queue):  # 君子式队列
 sqlite_data = SqliteQueue(database_path)
 sqlite_data.execute_from_file(init_table_path)
 #sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(type, path) VALUES (?,?)',('tv','/Volumes/文件1/视频/剧集/动漫'))
-sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(name,type, path) VALUES (?,?,?)',('本地测试','TV','/Users/zhangbeiyuan/Downloads'))
+sqlite_data.cur_execute('INSERT OR IGNORE INTO SearchPath(name,type, path) VALUES (?,?,?)',('本地测试','tv','/Users/zhangbeiyuan/Downloads'))

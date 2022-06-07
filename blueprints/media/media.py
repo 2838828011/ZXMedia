@@ -24,8 +24,7 @@ def tv_index():
     if media_type == '' or media_type is None:
         search_path_name = sqlite_data.cur_execute('SELECT name from SearchPath')
         show_tv = {}
-        for each_search_path_name in search_path_name:
-            each_search_path_name = each_search_path_name[0]
+        for each_search_path_name, in search_path_name:
             show_tv[each_search_path_name] = []
             episode_thing = sqlite_data.cur_execute('SELECT * FROM EpisodeMedia where father_search_path=?',
                                                     (each_search_path_name,))
@@ -42,10 +41,10 @@ def tv_index():
                     }
                 )
             print(show_tv)
-            return render_template('media/tv/tv_show_all_episode.html', show_tv=show_tv)
+        return render_template('media/tv/tv_show_all_episode.html', show_tv=show_tv)
     elif media_type == 'all':
         show_tv = []
-        tv_names = sqlite_data.cur_execute('SELECT tv_name,tv_cover_picture_id FROM EpisodeMedia GROUP BY tv_name')
+        tv_names = sqlite_data.cur_execute('SELECT tv_name,tv_cover_picture_id FROM EpisodeMedia GROUP BY season,tv_name')
         for tv_name,tv_cover_picture_id in tv_names:
             if tv_cover_picture_id is None:
                 tv_cover_picture_id=''
@@ -65,7 +64,7 @@ def tv_index():
             episode_detail[7] = '' if episode_detail[7] is None else episode_detail[7]
             return render_template('media/episode/episode.html',show_tv=episode_detail)
         elif tv_name is not None:
-            episode_detail = sqlite_data.cur_execute('SELECT tv_name,name,id,season,episode,cover_picture_id,tv_cover_picture_id FROM EpisodeMedia where tv_name=? ORDER BY episode',(tv_name,))
+            episode_detail = sqlite_data.cur_execute('SELECT tv_name,name,id,season,episode,cover_picture_id,tv_cover_picture_id FROM EpisodeMedia where tv_name=? ORDER BY season,episode',(tv_name,))
             if episode_detail is None:
                 return render_template('error/main_error.html', error_message='tv_name不存在')
             print(episode_detail)

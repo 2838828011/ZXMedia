@@ -41,11 +41,18 @@ def search_from_picture(path):
 def search():
     video = sqlite_data.select('SearchPath')
     for i in video:
-        if i[1] == 'tv':
+        if i[1] == 'tv' or i[1]=='TV':
             for each_path in get_dirs(i[2]):  # 获取剧集媒体库下方所有的文件夹
                 tv_group = search_from_tv(i[0], each_path)
-                # print(tv_group.data)
+                #print(tv_group.data)
                 tv_group.add_to_database(sqlite_data)
+            sqlite_data.cur_execute('INSERT INTO EpisodeMedia '
+                           'SELECT * from EpisodeMediaTemp '
+                           'where path not in (SELECT path FROM EpisodeMedia)'
+                           )
+            sqlite_data.cur_execute('DELETE from EpisodeMedia '
+                           'where path not in (SELECT path FROM EpisodeMediaTemp)'
+                           )
 
 
 if __name__ == '__main__':
